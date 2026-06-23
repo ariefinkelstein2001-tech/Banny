@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Banny - craft to be wild</title>
+<meta name="description" content="Destilados craft premium del Grupo Kairos. Gin, ron, whisky, vermut y cocteles listos hechos con caracter.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Banny - craft to be wild">
+<meta property="og:description" content="Destilados craft premium del Grupo Kairos. Gin, ron, whisky, vermut y cocteles listos.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="site-header" id="top">
+  <div class="container header-inner">
+    <a class="brand" href="/">BANNY<span class="brand-dot">.</span></a>
+    <nav class="nav">
+      <a href="#catalogo">Productos</a>
+      <a href="#categorias">Categorias</a>
+      <a href="#marca">Marca</a>
+    </nav>
+    <button class="cart-btn" id="cartBtn" aria-label="Abrir carrito">
+      Carrito <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</header>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+  <div class="cart-head">
+    <h3>Tu carrito</h3>
+    <button class="cart-close" id="cartClose" aria-label="Cerrar">&times;</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-foot">
+    <div class="cart-total"><span>Total</span><strong id="cartTotal">$0</strong></div>
+    <button class="btn btn-primary btn-block" id="checkoutBtn" disabled>Ir al checkout</button>
+    <p class="cart-note">El pago se completa de forma segura en Shopify.</p>
+  </div>
+</aside>
+
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="container hero-inner">
+    <p class="eyebrow">Destilados craft premium &middot; Grupo Kairos</p>
+    <h1 class="hero-title">Craft to be<br><span class="wild">wild</span></h1>
+    <p class="hero-sub">Gin, ron, whisky, vermut y cocteles listos. Hechos en pequenas partidas, con caracter, para los que no toman lo de siempre.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary btn-lg" href="#catalogo">Ver productos</a>
+      <a class="btn btn-outline btn-lg" href="#marca">Conocer Banny</a>
+    </div>
+  </div>
+</section>
+
+<section class="strip">
+  <div class="container strip-inner">
+    <span>Pequenas partidas</span><i></i>
+    <span>Ingredientes seleccionados</span><i></i>
+    <span>Checkout seguro Shopify</span><i></i>
+    <span>Despacho en Chile</span>
+  </div>
+</section>
+
+<main class="container">
+  <section id="catalogo" class="block">
+    <div class="block-head">
+      <h2>Nuestro catalogo</h2>
+      <p id="catalogCount">Catalogo en vivo desde Shopify</p>
+    </div>
+    <nav class="chips" id="categorias"></nav>
+    <div id="catalog">
+      <div class="loading">Cargando destilados Banny...</div>
+    </div>
+  </section>
+
+  <section id="marca" class="block brand-block">
+    <div class="brand-grid">
+      <div>
+        <p class="eyebrow">La marca</p>
+        <h2>Banny no nacio para pasar piola</h2>
+        <p>Somos la linea de destilados craft del Grupo Kairos. Misma obsesion por el oficio que pusimos en la cerveza, ahora en gin, ron, whisky, vermut y cocteles listos para servir.</p>
+        <p>Cada botella es una partida chica, pensada y probada. Sin atajos, sin sabores genericos. Destilados con personalidad para tomar distinto.</p>
+        <a class="btn btn-primary" href="#catalogo">Probar Banny</a>
+      </div>
+      <ul class="brand-points">
+        <li><strong>Craft de verdad</strong><span>Partidas chicas, control de principio a fin.</span></li>
+        <li><strong>Caracter</strong><span>Perfiles con onda, nada aburrido ni de manual.</span></li>
+        <li><strong>Premium accesible</strong><span>Calidad alta sin poses. Para disfrutar, no para guardar.</span></li>
+        <li><strong>Listos para servir</strong><span>RTD que respetan el trago: mojito, gin tonic y mas.</span></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>
+      <div class="brand footer-brand">BANNY<span class="brand-dot">.</span></div>
+      <p class="footer-tag">craft to be wild</p>
+    </div>
+    <div class="footer-meta">
+      <p>Grupo Kairos &middot; Destilados craft premium</p>
+      <p>Beber con moderacion. Venta exclusiva a mayores de 18 anos.</p>
+      <p>&copy; <span id="year"></span> Banny. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="/app.js" defer></script>
+</body>
+</html>

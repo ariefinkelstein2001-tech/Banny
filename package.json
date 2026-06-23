@@ -1,0 +1,20 @@
+{
+  "name": "banny-web",
+  "version": "1.0.0",
+  "description": "Banny - destilados craft premium del Grupo Kairos. Web liviana que lee productos desde el Shopify central y manda al checkout de Shopify.",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "verify": "node scripts/verify.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}
