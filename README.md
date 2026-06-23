@@ -82,6 +82,19 @@ formato del permalink de carrito.
 Se infieren desde `product_type` / `tags` de Shopify: **Gin, Ron, Whisky, Vermut, RTD**
 (y "Otros" como fallback). No hay que tocar código al sumar productos.
 
+## Identidad de marca
+
+Basada en el manual de marca de Banny (deck oficial):
+
+- **Logo:** wordmark manuscrito "BANNY" (`public/img/banny-logo.png` y versión crema
+  para fondos oscuros). Extraído del manual.
+- **Paleta:** `#77CBBF` turquesa · `#fff3e8` crema · `#94c46b` verde · `#7da6d8` azul ·
+  `#EEAB37` mostaza · `#0b0f33` navy (bandas/footer).
+- **Tipografía:** Montserrat (400–900).
+- **Tagline:** _Craft to be wild_. Banny es la línea de destilados y RTD de **Kairos**,
+  donde la experiencia en barra se transforma en producto.
+- Cada categoría tiene color de acento propio (chips, secciones y tarjetas).
+
 ---
 
 Beber con moderación. Venta exclusiva a mayores de 18 años.

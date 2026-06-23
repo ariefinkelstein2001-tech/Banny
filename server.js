@@ -28,10 +28,10 @@ const VENDOR = (process.env.VENDOR || 'Banny').trim();
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutos
 
 const SITE = {
-  name: 'Banny',
-  tagline: 'craft to be wild',
+  name: 'Banny by Kairos',
+  tagline: 'Craft to be wild',
   description:
-    'Destilados craft premium del Grupo Kairos. Gin, ron, whisky, vermut y cocteles listos hechos con caracter.'
+    'Banny es la linea de destilados y Ready To Drink de Kairos. Gin, ron, whisky, vermut y cocteles listos donde la experiencia en barra se transforma en producto.'
 };
 
 // Orden y matchers de categorias (mapeo desde product_type / tags de Shopify)
@@ -262,12 +262,14 @@ function layout({ title, description, ogImage, bodyHtml, canonical }) {
 <meta property="og:type" content="website">
 <meta property="og:title" content="${t}">
 <meta property="og:description" content="${d}">
-${ogImage ? `<meta property="og:image" content="${escapeHtml(ogImage)}">` : ''}
 ${canonical ? `<link rel="canonical" href="${escapeHtml(canonical)}">` : ''}
+<meta property="og:image" content="${escapeHtml(ogImage || '/img/banny-logo.png')}">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -282,11 +284,11 @@ ${footer()}
 function header() {
   return `<header class="site-header" id="top">
   <div class="container header-inner">
-    <a class="brand" href="/">BANNY<span class="brand-dot">.</span></a>
+    <a class="brand" href="/"><img src="/img/banny-logo.png" alt="Banny"></a>
     <nav class="nav">
       <a href="/#catalogo">Productos</a>
       <a href="/#categorias">Categorias</a>
-      <a href="/#marca">Marca</a>
+      <a href="/#marca">La marca</a>
     </nav>
     <button class="cart-btn" id="cartBtn" aria-label="Abrir carrito">
       Carrito <span class="cart-count" id="cartCount">0</span>
@@ -317,13 +319,13 @@ function footer() {
   return `<footer class="site-footer">
   <div class="container footer-inner">
     <div>
-      <div class="brand footer-brand">BANNY<span class="brand-dot">.</span></div>
+      <img class="footer-logo" src="/img/banny-logo-cream.png" alt="Banny">
       <p class="footer-tag">${escapeHtml(SITE.tagline)}</p>
     </div>
     <div class="footer-meta">
-      <p>Grupo Kairos &middot; Destilados craft premium</p>
-      <p>Beber con moderacion. Venta exclusiva a mayores de 18 anos.</p>
-      <p>&copy; ${year} Banny. Todos los derechos reservados.</p>
+      <p>Banny &middot; Una marca de Kairos</p>
+      <p>Beber con moderacion. Venta exclusiva a mayores de 18 años.</p>
+      <p>&copy; ${year} Banny by Kairos. Todos los derechos reservados.</p>
     </div>
   </div>
 </footer>`;
@@ -335,12 +337,14 @@ function productCard(p) {
     : `<span class="price">${p.priceFrom ? 'Desde ' : ''}${p.price || ''}</span>`;
   const badge = p.onSale ? '<span class="badge badge-sale">Oferta</span>' : '';
   const sold = !p.available ? '<span class="badge badge-out">Agotado</span>' : '';
-  return `<article class="card">
+  const catLabel = (CATEGORIES.find((c) => c.key === p.category) || CATEGORY_FALLBACK).label;
+  return `<article class="card cat-${p.category}">
   <a class="card-media" href="/products/${encodeURIComponent(p.handle)}">
     ${badge}${sold}
     ${p.image ? `<img loading="lazy" src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}">` : '<div class="card-noimg">Banny</div>'}
   </a>
   <div class="card-body">
+    <span class="card-cat">${escapeHtml(catLabel)}</span>
     <a class="card-title" href="/products/${encodeURIComponent(p.handle)}">${escapeHtml(p.title)}</a>
     <div class="card-price">${priceBlock}</div>
     <div class="card-actions">
@@ -402,8 +406,8 @@ function renderProduct(p, data) {
         <button class="btn btn-ghost btn-lg btn-add" data-variant="${p.defaultVariantId || ''}" data-title="${escapeHtml(p.title)}" data-price-raw="${rawPriceFromVariant(p)}" data-img="${escapeHtml(p.image || '')}" data-handle="${escapeHtml(p.handle)}" ${p.available && p.defaultVariantId ? '' : 'disabled'}>Agregar al carrito</button>
         <button class="btn btn-primary btn-lg btn-buynow" data-variant="${p.defaultVariantId || ''}" ${p.available && p.defaultVariantId ? '' : 'disabled'}>Comprar ahora</button>
       </div>
-      <div class="pdp-desc">${p.descriptionHtml || '<p>Destilado craft Banny.</p>'}</div>
-      <p class="pdp-legal">Producto apto solo para mayores de 18 anos. Beber con moderacion.</p>
+      <div class="pdp-desc">${p.descriptionHtml || '<p>Destilado craft Banny, nacido en la barra de Kairos.</p>'}</div>
+      <p class="pdp-legal">Producto apto solo para mayores de 18 años. Beber con moderacion. Una marca de Kairos.</p>
     </div>
   </div>
   ${

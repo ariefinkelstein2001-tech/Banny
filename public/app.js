@@ -132,6 +132,8 @@
   }
 
   // ---------- tarjeta de producto (home, client-side) ----------
+  var CAT_LABELS = { gin: 'Gin', ron: 'Ron', whisky: 'Whisky', vermut: 'Vermut', rtd: 'RTD', otros: 'Otros' };
+
   function cardHtml(p) {
     var priceBlock = p.compareAtPrice
       ? '<span class="price-sale">' + esc(p.price) + '</span> <span class="price-compare">' + esc(p.compareAtPrice) + '</span>'
@@ -140,11 +142,13 @@
     var out = !p.available ? '<span class="badge badge-out">Agotado</span>' : '';
     var priceRaw = Number(String(p.price || '').replace(/[^0-9]/g, '')) || 0;
     var disabled = (p.available && p.defaultVariantId) ? '' : 'disabled';
-    return '<article class="card">' +
+    var catLabel = CAT_LABELS[p.category] || 'Banny';
+    return '<article class="card cat-' + esc(p.category) + '">' +
       '<a class="card-media" href="/products/' + encodeURIComponent(p.handle) + '">' + badge + out +
         (p.image ? '<img loading="lazy" src="' + esc(p.image) + '" alt="' + esc(p.title) + '">' : '<div class="card-noimg">Banny</div>') +
       '</a>' +
       '<div class="card-body">' +
+        '<span class="card-cat">' + esc(catLabel) + '</span>' +
         '<a class="card-title" href="/products/' + encodeURIComponent(p.handle) + '">' + esc(p.title) + '</a>' +
         '<div class="card-price">' + priceBlock + '</div>' +
         '<div class="card-actions">' +
@@ -175,12 +179,12 @@
     if (countEl) countEl.textContent = data.count + (data.count === 1 ? ' destilado disponible' : ' destilados disponibles');
     if (chips) {
       chips.innerHTML = data.categories.map(function (g) {
-        return '<a class="chip" href="#cat-' + g.key + '">' + esc(g.label) + ' <span>' + g.items.length + '</span></a>';
+        return '<a class="chip cat-' + g.key + '" href="#cat-' + g.key + '">' + esc(g.label) + ' <span>' + g.items.length + '</span></a>';
       }).join('');
     }
 
     wrap.innerHTML = data.categories.map(function (g) {
-      return '<section class="cat-section" id="cat-' + g.key + '">' +
+      return '<section class="cat-section cat-' + g.key + '" id="cat-' + g.key + '">' +
         '<div class="cat-head"><h3>' + esc(g.label) + '</h3>' +
         '<span class="cat-count">' + g.items.length + (g.items.length === 1 ? ' producto' : ' productos') + '</span></div>' +
         '<div class="grid">' + g.items.map(cardHtml).join('') + '</div>' +
