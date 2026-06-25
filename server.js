@@ -27,6 +27,14 @@ const API_VERSION = (process.env.SHOPIFY_API_VERSION || '2024-10').trim();
 const VENDOR = (process.env.VENDOR || 'Banny').trim();
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutos
 
+// Palabras clave para EXCLUIR productos del catalogo web (formato granel
+// que no va en la tienda online, ej: bidones de 20 L). Configurable por env.
+// Coincide contra titulo / tags / product_type, sin distinguir acentos.
+const EXCLUDE_KEYWORDS = (process.env.EXCLUDE_KEYWORDS || 'bidon')
+  .split(',')
+  .map((s) => s.trim().toLowerCase())
+  .filter(Boolean);
+
 const SITE = {
   name: 'Banny by Kairos',
   tagline: 'Craft to be wild',
@@ -138,6 +146,17 @@ function classifyCategory(p) {
   return CATEGORY_FALLBACK.key;
 }
 
+function stripAccents(s) {
+  return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
+
+// True si el producto debe excluirse del catalogo web (ej: bidones a granel).
+function isExcluded(p) {
+  if (!EXCLUDE_KEYWORDS.length) return false;
+  const hay = stripAccents([p.title, p.tags, p.product_type].join(' ').toLowerCase());
+  return EXCLUDE_KEYWORDS.some((kw) => hay.includes(stripAccents(kw)));
+}
+
 function money(amount) {
   const n = Number(amount);
   if (!isFinite(n)) return null;
@@ -213,6 +232,7 @@ async function getData(force = false) {
     ]);
     const products = rawProducts
       .filter((p) => (p.vendor || '').trim().toLowerCase() === VENDOR.toLowerCase())
+      .filter((p) => !isExcluded(p)) // fuera bidones / formato granel
       .map(normalizeProduct);
     cache = { ts: Date.now(), products, pages: rawPages, error: null };
   } catch (e) {
@@ -500,6 +520,7 @@ app.get('/api/_diag', async (req, res) => {
     apiVersion: API_VERSION,
     error: data.error,
     totalProducts: data.products.length,
+    excludeKeywords: EXCLUDE_KEYWORDS,
     byCategory: groups.map((g) => ({ category: g.key, label: g.label, count: g.items.length })),
     sampleHandles: data.products.slice(0, 10).map((p) => p.handle),
     pages: (data.pages || []).map((pg) => pg.handle),

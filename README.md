@@ -28,6 +28,7 @@ carrito de Shopify mediante permalink. Nada de productos hardcodeados.
 | `SHOPIFY_ADMIN_TOKEN` | sí | — | Token Admin API (secreto, **solo env var**) |
 | `SHOPIFY_API_VERSION` | no | `2024-10` | Versión del Admin API |
 | `VENDOR` | no | `Banny` | Vendor a filtrar |
+| `EXCLUDE_KEYWORDS` | no | `bidon` | Palabras (coma-separadas) para excluir del catálogo, ej. bidones a granel de 20 L |
 | `PORT` | no | `3000` | Lo inyecta Railway |
 
 El token **nunca** va en el código ni en el repo. Ver `.env.example`.
