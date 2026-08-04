@@ -244,55 +244,6 @@ h1, h2, h3 { font-weight: 800; line-height: 1.04; letter-spacing: -0.01em; margi
 }
 .band .accent { color: var(--mint-light); font-weight: 500; }
 
-/* ---------- Conoce a la familia (gins) ---------- */
-.family { position: relative; background: var(--navy); padding: 90px 0 60px; overflow: hidden; }
-.family-flora {
-  position: absolute; top: -18px; left: -18px; width: 210px; height: auto;
-  opacity: 0.95; pointer-events: none; z-index: 1;
-}
-.family-head { position: relative; z-index: 2; margin-bottom: 44px; }
-.family-head h2 { font-size: clamp(2.2rem, 6vw, 3.8rem); font-weight: 900; text-transform: uppercase; }
-.family-carousel {
-  position: relative; z-index: 2; overflow-x: auto; scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch; scrollbar-width: none;
-}
-.family-carousel::-webkit-scrollbar { display: none; }
-.family-track { display: flex; gap: 40px; padding: 0 22px 20px; width: max-content; }
-.family-item {
-  scroll-snap-align: start; width: 220px; flex-shrink: 0;
-  display: flex; flex-direction: column; align-items: center; gap: 18px;
-}
-.family-item-media {
-  width: 100%; aspect-ratio: 3 / 4; border-radius: var(--radius-lg);
-  background: radial-gradient(120% 90% at 50% 0%, #ffffff, var(--cream));
-  display: flex; align-items: center; justify-content: center; padding: 18px;
-}
-.family-item-media img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
-.family-pill {
-  display: inline-flex; align-items: center; justify-content: center; text-align: center;
-  border: 2px solid var(--mint); border-radius: 999px; padding: 12px 22px;
-  font-weight: 700; font-size: 0.9rem; color: var(--white);
-  transition: background 0.2s, color 0.2s;
-}
-.family-pill:hover { background: var(--mint); color: var(--navy); }
-.family-dots { position: relative; z-index: 2; display: flex; justify-content: center; gap: 8px; margin-top: 26px; }
-.family-dot {
-  width: 8px; height: 8px; border-radius: 999px; background: var(--line);
-  border: none; cursor: pointer; padding: 0; transition: all 0.2s;
-}
-.family-dot.is-active { background: var(--mint); width: 22px; }
-@media (max-width: 640px) {
-  .family-flora { width: 130px; top: -8px; left: -8px; }
-  .family-item { width: 168px; }
-}
-
-/* ---------- Aparicion al hacer scroll ---------- */
-.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
-.reveal.is-visible { opacity: 1; transform: translateY(0); }
-@media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
-}
-
 .brand-block { background: var(--slate); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .brand-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 54px; align-items: center; }
 .brand-grid h2 { font-size: clamp(1.9rem, 4vw, 2.7rem); font-weight: 900; }
