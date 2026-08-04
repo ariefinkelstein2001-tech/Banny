@@ -139,9 +139,7 @@ h1, h2, h3 { font-weight: 800; line-height: 1.04; letter-spacing: -0.01em; margi
 .banner-mobile { display: none; }
 @media (max-width: 640px) {
   .banner-desktop { display: none; }
-  .banner-mobile { display: block; aspect-ratio: 1 / 1; }
-  .banner-mobile .banner-track { height: 100%; }
-  .banner-mobile .banner-slide { height: 100%; object-fit: contain; }
+  .banner-mobile { display: block; }
 }
 
 /* ---------- Marquee navy (ticker en linea, sin cortes) ---------- */
