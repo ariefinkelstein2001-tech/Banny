@@ -199,7 +199,7 @@
   }
 
   // ---------- "La familia" (loop automatico de todos los productos) ----------
-  var FAMILY_LOOP_PX_PER_SEC = 46;
+  var FAMILY_LOOP_PX_PER_SEC = 75;
 
   function familyLoopItemHtml(p) {
     return '<a class="family-loop-item" href="/products/' + encodeURIComponent(p.handle) + '">' +
