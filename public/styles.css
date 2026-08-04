@@ -161,6 +161,9 @@ h1, h2, h3 { font-weight: 800; line-height: 1.04; letter-spacing: -0.01em; margi
 /* ---------- La familia (loop de productos, estilo Absolut) ---------- */
 .family-loop { background: #191f3d; padding: 46px 0 54px; overflow: hidden; }
 .family-loop-title { display: block; width: min(320px, 62vw); margin: 0 auto 30px; }
+@media (max-width: 640px) {
+  .family-loop-title { width: min(420px, 88vw); }
+}
 .family-loop-viewport { overflow: hidden; }
 .family-loop-track {
   display: flex; width: max-content;
