@@ -159,7 +159,7 @@ h1, h2, h3 { font-weight: 800; line-height: 1.04; letter-spacing: -0.01em; margi
 }
 
 /* ---------- La familia (loop de productos, estilo Absolut) ---------- */
-.family-loop { background: var(--mint); padding: 46px 0 54px; overflow: hidden; }
+.family-loop { background: #191f3d; padding: 46px 0 54px; overflow: hidden; }
 .family-loop-title { display: block; width: min(320px, 62vw); margin: 0 auto 30px; }
 .family-loop-viewport { overflow: hidden; }
 .family-loop-track {
@@ -176,11 +176,11 @@ h1, h2, h3 { font-weight: 800; line-height: 1.04; letter-spacing: -0.01em; margi
   display: flex; align-items: center; justify-content: center;
 }
 .family-loop-media img { width: 100%; height: 100%; object-fit: contain; }
-.family-loop-name { font-weight: 700; color: var(--navy); font-size: 0.92rem; line-height: 1.25; }
-.family-loop-price { font-weight: 800; color: var(--navy); font-size: 0.95rem; }
+.family-loop-name { font-weight: 700; color: var(--white); font-size: 0.92rem; line-height: 1.25; }
+.family-loop-price { font-weight: 800; color: var(--white); font-size: 0.95rem; }
 .family-loop-buy {
   font-weight: 800; font-size: 0.76rem; letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--navy); text-decoration: underline; text-underline-offset: 3px;
+  color: var(--mint); text-decoration: underline; text-underline-offset: 3px;
 }
 @keyframes familyLoopScroll {
   from { transform: translateX(0); }
