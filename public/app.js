@@ -199,7 +199,7 @@
   }
 
   // ---------- "La familia" (loop automatico de todos los productos) ----------
-  var FAMILY_LOOP_PX_PER_SEC = 26;
+  var FAMILY_LOOP_PX_PER_SEC = 46;
 
   function familyLoopItemHtml(p) {
     return '<a class="family-loop-item" href="/products/' + encodeURIComponent(p.handle) + '">' +
@@ -208,6 +208,7 @@
       '</span>' +
       '<span class="family-loop-name">' + esc(p.title) + '</span>' +
       '<span class="family-loop-price">' + esc(p.price || '') + '</span>' +
+      '<span class="family-loop-buy">Comprar</span>' +
     '</a>';
   }
 
@@ -222,18 +223,30 @@
     track.classList.remove('is-paused');
 
     var trackWidth = track.scrollWidth / 2;
-    var duration = Math.max(trackWidth / FAMILY_LOOP_PX_PER_SEC, 12);
+    var duration = Math.max(trackWidth / FAMILY_LOOP_PX_PER_SEC, 8);
     track.style.animationDuration = duration + 's';
 
-    var pauseTimer;
-    function pause() { clearTimeout(pauseTimer); track.classList.add('is-paused'); }
-    function resume() { clearTimeout(pauseTimer); pauseTimer = setTimeout(function () { track.classList.remove('is-paused'); }, 600); }
+    // Pausa al tocar/hacer hover. Un timer de seguridad garantiza que
+    // nunca quede pegado en pausa si algun evento de "soltar" no llega
+    // (pasa en algunos navegadores moviles con gestos raros).
+    var resumeTimer, safetyTimer;
+    function pause() {
+      clearTimeout(resumeTimer);
+      clearTimeout(safetyTimer);
+      track.classList.add('is-paused');
+      safetyTimer = setTimeout(resume, 4000);
+    }
+    function resume() {
+      clearTimeout(resumeTimer);
+      clearTimeout(safetyTimer);
+      resumeTimer = setTimeout(function () { track.classList.remove('is-paused'); }, 500);
+    }
 
     var viewport = $('#familyLoopViewport');
     ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (evt) {
       viewport.addEventListener(evt, pause, { passive: true });
     });
-    ['pointerup', 'touchend', 'mouseleave'].forEach(function (evt) {
+    ['pointerup', 'pointercancel', 'pointerleave', 'touchend', 'touchcancel', 'mouseleave'].forEach(function (evt) {
       viewport.addEventListener(evt, resume, { passive: true });
     });
   }
