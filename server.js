@@ -290,7 +290,7 @@ ${canonical ? `<link rel="canonical" href="${escapeHtml(canonical)}">` : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/styles.css?v=20260804e">
 </head>
 <body>
 ${header()}
@@ -304,7 +304,7 @@ ${footer()}
 function header() {
   return `<header class="site-header" id="top">
   <div class="container header-inner">
-    <a class="brand" href="/"><img src="/img/banny-logo.png" alt="Banny"></a>
+    <a class="brand" href="/"><img src="/img/banny-logo-cream.png" alt="Banny"></a>
     <nav class="nav">
       <a href="/#catalogo">Productos</a>
       <a href="/#categorias">Categorias</a>
