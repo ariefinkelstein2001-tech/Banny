@@ -190,6 +190,76 @@
         '<div class="grid">' + g.items.map(cardHtml).join('') + '</div>' +
       '</section>';
     }).join('');
+
+    var ginGroup = data.categories && data.categories.find(function (g) { return g.key === 'gin'; });
+    renderFamily(ginGroup ? ginGroup.items : []);
+  }
+
+  // ---------- "Conoce a la familia" (carrusel de gins) ----------
+  function familyItemHtml(p, i) {
+    return '<div class="family-item reveal" style="transition-delay:' + (i * 70) + 'ms">' +
+      '<a class="family-item-media" href="/products/' + encodeURIComponent(p.handle) + '">' +
+        (p.image ? '<img loading="lazy" src="' + esc(p.image) + '" alt="' + esc(p.title) + '">' : '<div class="card-noimg">Banny</div>') +
+      '</a>' +
+      '<a class="family-pill" href="/products/' + encodeURIComponent(p.handle) + '">' + esc(p.title) + '</a>' +
+    '</div>';
+  }
+
+  function renderFamily(items) {
+    var section = $('#familia');
+    var track = $('#familyTrack');
+    var dotsWrap = $('#familyDots');
+    if (!section || !track || !dotsWrap) return;
+    if (!items || !items.length) { section.style.display = 'none'; return; }
+
+    track.innerHTML = items.map(familyItemHtml).join('');
+    dotsWrap.innerHTML = items.map(function (_, i) {
+      return '<button class="family-dot' + (i === 0 ? ' is-active' : '') + '" data-index="' + i + '" aria-label="Ver producto ' + (i + 1) + '"></button>';
+    }).join('');
+
+    var itemEls = $all('.family-item', track);
+    var dotEls = $all('.family-dot', dotsWrap);
+    var carousel = track.parentElement;
+
+    dotEls.forEach(function (dot) {
+      dot.addEventListener('click', function () {
+        var target = itemEls[Number(dot.getAttribute('data-index'))];
+        if (target) carousel.scrollTo({ left: target.offsetLeft - 22, behavior: 'smooth' });
+      });
+    });
+
+    carousel.addEventListener('scroll', function () {
+      var pos = carousel.scrollLeft, closest = 0, closestDist = Infinity;
+      itemEls.forEach(function (el, i) {
+        var dist = Math.abs((el.offsetLeft - 22) - pos);
+        if (dist < closestDist) { closestDist = dist; closest = i; }
+      });
+      dotEls.forEach(function (d, i) { d.classList.toggle('is-active', i === closest); });
+    }, { passive: true });
+
+    initReveal();
+  }
+
+  // ---------- aparicion al hacer scroll ----------
+  var revealObserver;
+  function initReveal() {
+    var els = $all('.reveal:not(.is-observed)');
+    if (!els.length) return;
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+    if (!revealObserver) {
+      revealObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    }
+    els.forEach(function (el) { el.classList.add('is-observed'); revealObserver.observe(el); });
   }
 
   function loadCatalog() {
@@ -261,5 +331,6 @@
     updateCount();
     loadCatalog();
     initGallery();
+    initReveal();
   });
 })();
