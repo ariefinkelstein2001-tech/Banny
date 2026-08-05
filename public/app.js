@@ -168,13 +168,11 @@
     if (data.error) {
       wrap.innerHTML = '<div class="notice notice-error"><strong>No pudimos cargar el catalogo desde Shopify.</strong>' +
         '<p>Revisa las env vars en Railway (SHOPIFY_STORE_DOMAIN y SHOPIFY_ADMIN_TOKEN). Detalle: ' + esc(data.error) + '</p></div>';
-      renderFamilyLoop([]);
       return;
     }
     if (!data.count) {
       wrap.innerHTML = '<div class="notice"><strong>No hay productos con vendor "' + esc(data.vendor) + '" todavia.</strong>' +
         '<p>En cuanto se publiquen en el Shopify central apareceran aca automaticamente.</p></div>';
-      renderFamilyLoop([]);
       return;
     }
 
@@ -192,63 +190,6 @@
         '<div class="grid">' + g.items.map(cardHtml).join('') + '</div>' +
       '</section>';
     }).join('');
-
-    var allItems = [];
-    data.categories.forEach(function (g) { allItems = allItems.concat(g.items); });
-    renderFamilyLoop(allItems);
-  }
-
-  // ---------- "La familia" (loop automatico de todos los productos) ----------
-  var FAMILY_LOOP_PX_PER_SEC = 75;
-
-  function familyLoopItemHtml(p) {
-    return '<a class="family-loop-item" href="/products/' + encodeURIComponent(p.handle) + '">' +
-      '<span class="family-loop-media">' +
-        (p.image ? '<img loading="lazy" src="' + esc(p.image) + '" alt="' + esc(p.title) + '">' : '<div class="card-noimg">Banny</div>') +
-      '</span>' +
-      '<span class="family-loop-name">' + esc(p.title) + '</span>' +
-      '<span class="family-loop-price">' + esc(p.price || '') + '</span>' +
-      '<span class="family-loop-buy">Comprar</span>' +
-    '</a>';
-  }
-
-  function renderFamilyLoop(items) {
-    var section = $('.family-loop');
-    var track = $('#familyLoopTrack');
-    if (!section || !track) return;
-    if (!items || !items.length) { section.style.display = 'none'; return; }
-
-    var itemsHtml = items.map(familyLoopItemHtml).join('');
-    track.innerHTML = itemsHtml + itemsHtml; // duplicado para el loop continuo
-    track.classList.remove('is-paused');
-
-    var trackWidth = track.scrollWidth / 2;
-    var duration = Math.max(trackWidth / FAMILY_LOOP_PX_PER_SEC, 8);
-    track.style.animationDuration = duration + 's';
-
-    // Pausa al tocar/hacer hover. Un timer de seguridad garantiza que
-    // nunca quede pegado en pausa si algun evento de "soltar" no llega
-    // (pasa en algunos navegadores moviles con gestos raros).
-    var resumeTimer, safetyTimer;
-    function pause() {
-      clearTimeout(resumeTimer);
-      clearTimeout(safetyTimer);
-      track.classList.add('is-paused');
-      safetyTimer = setTimeout(resume, 4000);
-    }
-    function resume() {
-      clearTimeout(resumeTimer);
-      clearTimeout(safetyTimer);
-      resumeTimer = setTimeout(function () { track.classList.remove('is-paused'); }, 500);
-    }
-
-    var viewport = $('#familyLoopViewport');
-    ['pointerdown', 'touchstart', 'mouseenter'].forEach(function (evt) {
-      viewport.addEventListener(evt, pause, { passive: true });
-    });
-    ['pointerup', 'pointercancel', 'pointerleave', 'touchend', 'touchcancel', 'mouseleave'].forEach(function (evt) {
-      viewport.addEventListener(evt, resume, { passive: true });
-    });
   }
 
   function loadCatalog() {
