@@ -168,11 +168,13 @@
     if (data.error) {
       wrap.innerHTML = '<div class="notice notice-error"><strong>No pudimos cargar el catalogo desde Shopify.</strong>' +
         '<p>Revisa las env vars en Railway (SHOPIFY_STORE_DOMAIN y SHOPIFY_ADMIN_TOKEN). Detalle: ' + esc(data.error) + '</p></div>';
+      renderPopCats([]);
       return;
     }
     if (!data.count) {
       wrap.innerHTML = '<div class="notice"><strong>No hay productos con vendor "' + esc(data.vendor) + '" todavia.</strong>' +
         '<p>En cuanto se publiquen en el Shopify central apareceran aca automaticamente.</p></div>';
+      renderPopCats([]);
       return;
     }
 
@@ -190,6 +192,45 @@
         '<div class="grid">' + g.items.map(cardHtml).join('') + '</div>' +
       '</section>';
     }).join('');
+
+    renderPopCats(data.categories);
+  }
+
+  // ---------- Categorias populares (gin/ron/whisky, debajo de los banners) ----------
+  var POP_CAT_KEYS = ['gin', 'ron', 'whisky'];
+
+  function popCatRepresentative(items, key) {
+    if (key === 'gin') {
+      var londonDry = items.find(function (p) { return /london\s*dry/i.test(p.title || ''); });
+      if (londonDry) return londonDry;
+    }
+    return items[0];
+  }
+
+  function popCatTileHtml(g) {
+    var p = popCatRepresentative(g.items, g.key);
+    return '<a class="pop-cat" href="#cat-' + g.key + '">' +
+      '<span class="pop-cat-circle">' +
+        (p.image ? '<img loading="lazy" src="' + esc(p.image) + '" alt="' + esc(g.label) + '">' : '') +
+      '</span>' +
+      '<strong class="pop-cat-name">' + esc(g.label) + '</strong>' +
+      '<span class="pop-cat-count">' + g.items.length + (g.items.length === 1 ? ' producto' : ' productos') + '</span>' +
+    '</a>';
+  }
+
+  function renderPopCats(categories) {
+    var section = $('.pop-cats');
+    var grid = $('#popCatsGrid');
+    if (!section || !grid) return;
+    var byKey = {};
+    (categories || []).forEach(function (g) { byKey[g.key] = g; });
+    var tiles = POP_CAT_KEYS
+      .map(function (key) { return byKey[key]; })
+      .filter(function (g) { return g && g.items.length; })
+      .map(popCatTileHtml)
+      .join('');
+    if (!tiles) { section.style.display = 'none'; return; }
+    grid.innerHTML = tiles;
   }
 
   function loadCatalog() {
